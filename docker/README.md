@@ -28,6 +28,7 @@ $ docker container run \
   --volume ../notebooks:/home/$USER/app/notebooks \
   --volume ../results:/home/$USER/app/results \
   --volume ../src:/home/$USER/app/src \
+  --runtime nvidia \
   --publish 8888:8888 \
   $IMAGE_NAME:$IMAGE_TAG
 ```
