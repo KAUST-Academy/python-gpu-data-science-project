@@ -1,7 +1,7 @@
-# python-data-science-project
+# python-gpu-data-science-project
 
-Repository containing scaffolding for a Python 3-based data science project. Project organization 
-is based on ideas from [_Good Enough Practices for Scientific Computing_](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510).
+Repository containing scaffolding for a Python 3-based data science project with GPU acceleration. 
+Project organization is based on ideas from [_Good Enough Practices for Scientific Computing_](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510).
 
 ## Project organization
 
@@ -47,6 +47,12 @@ $ conda env update --prefix ./env --file environment.yml --prune
 ```
 
 ## Using Docker
+
+In order to build Docker images for your project and run containers with GPU acceleration you will 
+need to install 
+[Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/), 
+[Docker Compose](https://docs.docker.com/compose/install/) and the 
+[NVIDIA Docker runtime](https://github.com/NVIDIA/nvidia-docker).
 
 Detailed instructions for using Docker to build and image and launch containers can be found in 
 the `docker/README.md`.
