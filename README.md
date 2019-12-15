@@ -59,12 +59,13 @@ The list of explicit dependencies for the project are listed in the `environmen.
 conda list --prefix ./env
 ```
 
+
 ## Installing the JupyterLab extensions
 
-If you wish to make use of the JupyterLab extensions included in the `environment.yml` file, then you will need to run the `postBuild` script after activating the environment to$
+If you wish to make use of the JupyterLab extensions included in the `environment.yml` file, then you will need to run the `postBuild` script after activating the environment to rebuild the client-side components of the extensions. Note that this step only needs to be done once (unless you add additional JupyterLab extensions).
 
 ```bash
-$ conda activate ./env 
+$ conda activate ./env
 (/path/to/project-dir/env)$ . postBuild
 ```
 
