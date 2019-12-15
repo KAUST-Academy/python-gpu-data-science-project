@@ -61,10 +61,11 @@ conda list --prefix ./env
 
 ## Installing the JupyterLab extensions
 
-If you wish to make use of the JupyterLab extensions included in the `environment.yml` file, then you will need to run the `postBuild` script to rebuild the client-side components of the extensions.
+If you wish to make use of the JupyterLab extensions included in the `environment.yml` file, then you will need to run the `postBuild` script after activating the environment to$
 
 ```bash
-$ . postBuild
+$ conda activate ./env 
+(/path/to/project-dir/env)$ . postBuild
 ```
 
 ## Using Docker
