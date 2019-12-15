@@ -8,6 +8,6 @@ dependencies:
   - nodejs=10.13
   - pip=19.3
   - pip:
-    - jupyterlab-nvdashboard  # server-side component; client-side component installed in postBuild
+    - jupyterlab-nvdashboard==0.1.*  # server-side component; client-side component installed in postBuild
   - python=3.7
   
