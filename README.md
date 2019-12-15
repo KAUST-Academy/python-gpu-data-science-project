@@ -59,6 +59,14 @@ The list of explicit dependencies for the project are listed in the `environmen.
 conda list --prefix ./env
 ```
 
+## Installing the JupyterLab extensions
+
+If you wish to make use of the JupyterLab extensions included in the `environment.yml` file, then you will need to run the `postBuild` script to rebuild the client-side components of the extensions.
+
+```bash
+$ . postBuild
+```
+
 ## Using Docker
 
 In order to build Docker images for your project and run containers with GPU acceleration you will 
