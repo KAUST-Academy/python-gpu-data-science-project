@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-base-ubuntu16.04
+FROM ubuntu:16.04
 
 LABEL maintainer="pughdr <david.pugh@kaust.edu.sa>"
 
@@ -40,25 +40,40 @@ RUN chown $UID:$GID /usr/local/bin/docker-entrypoint.sh && \
 # install Miniconda as non-root user
 USER $USER
 
-ENV MINICONDA_VERSION 4.7.12
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh && \
+ENV MINICONDA_VERSION 4.8.2
+ENV CONDA_DIR $HOME/miniconda3
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -O ~/miniconda.sh && \
     chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b && \
-    rm ~/miniconda.sh && \
-    echo ". ${HOME}/miniconda3/etc/profile.d/conda.sh" >> ~/.profile
+    ~/miniconda.sh -b -p $CONDA_DIR && \
+    rm ~/miniconda.sh
 
-RUN mkdir $HOME/app
-WORKDIR $HOME/app
+# make non-activate conda commands available
+ENV PATH=$CONDA_DIR/bin:$PATH
 
-RUN ~/miniconda3/bin/conda update --name base --channel defaults conda && \
-    ~/miniconda3/bin/conda env create --prefix ./env --file /tmp/environment.yml && \
-    ~/miniconda3/bin/conda clean --all --yes
-RUN source ~/miniconda3/bin/activate ./env && \
-    /usr/local/postBuild.sh && \
-    source ~/miniconda3/bin/deactivate
+# make conda activate command available from /bin/bash --login shells
+RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.profile
+
+# make conda activate command available from /bin/bash --interative shells
+RUN conda init bash
+
+# create a project directory inside user home
+ENV PROJECT_DIR $HOME/app
+RUN mkdir $PROJECT_DIR
+WORKDIR $PROJECT_DIR
+
+# build the conda environment
+ENV ENV_PREFIX $PROJECT_DIR/env
+RUN conda update --name base --channel defaults conda && \
+    conda env create --prefix $ENV_PREFIX --file /tmp/environment.yml --force && \
+    conda clean --all --yes
+
+# run the postBuild script to install the JupyterLab extensions
+RUN conda activate $ENV_PREFIX && \
+    /usr/local/bin/postBuild.sh && \
+    conda deactivate
 
 # use an entrypoint script to insure conda environment is properly activated at runtime
-ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
 # default command will be to launch JupyterLab server for development
 CMD [ "jupyter", "lab", "--no-browser", "--ip", "0.0.0.0" ]
