@@ -5,19 +5,13 @@ channels:
   - defaults
 
 dependencies:
-  - bokeh=1.4
-  - cudatoolkit=10.1
-  - cupti=10.1
-  - hvplot=0.5
-  - ipython-sql=0.3
-  - jupyterlab=1.2
-  - jupyterlab-git=0.9
-  - matplotlib=3.2
-  - nbdime=1.1
-  - nodejs=13
-  - pandas=1.0
-  - pip=20.0
+  - cudatoolkit
+  - jupyterlab<3.0
+  - jupyterlab-git
+  - matplotlib
+  - pandas
+  - pip
   - pip:
     - -r file:requirements.txt
-  - python=3.7
+  - python
   
